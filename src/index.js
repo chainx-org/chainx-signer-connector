@@ -175,6 +175,10 @@ export default class SocketService {
     }
   }
 
+  setAutoReConnect(auto) {
+    this.autoReConnect = auto
+  }
+
   isConnected() {
     return this.connected
   }
