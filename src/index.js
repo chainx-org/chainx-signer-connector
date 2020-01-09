@@ -149,6 +149,7 @@ export default class SocketService {
         this.send()
         this.connected = true
         this.socket.onmessage = this.socketMsgHandler.bind(this)
+        this.socket.onclose = this.onSocketClose.bind(this)
         this.pairingPromise = null
         this.pair(true).then(() => resolve(true))
       } else {
