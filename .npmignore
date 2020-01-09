@@ -2,3 +2,6 @@
 .DS_Store
 node_modules
 src
+.prettierrc.js
+yarn.lock
+.gitignore
