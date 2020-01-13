@@ -21,10 +21,11 @@ export async function findTargetPort() {
         return iterPort
       }
     } catch (e) {
-      console.log(`port ${iterPort} failed, try to test another port`)
+      // ignore the error and try another port
+      // console.log(`port ${iterPort} failed, try to test another port`)
+    } finally {
+      iterPort += iterStep
     }
-
-    iterPort += iterStep
   }
 
   return null

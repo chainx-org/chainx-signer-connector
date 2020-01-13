@@ -2,7 +2,9 @@ import StorageService from './StorageService'
 import getRandomValues from 'get-random-values'
 import createHash from 'create-hash'
 import { findTargetPort, trySocket } from './utils'
-import { events } from './constants'
+import { events, nonFunc } from './constants'
+
+export * from './constants'
 
 const sha256 = data =>
   createHash('sha256')
@@ -280,5 +282,68 @@ export default class SocketService {
       origin = origin.replace('www.', '')
     }
     return origin
+  }
+
+  async getCurrentAccount() {
+    return await this.sendApiRequest({
+      method: 'chainx_account',
+      params: []
+    })
+  }
+
+  async getCurrentNode() {
+    return await this.sendApiRequest({
+      method: 'chainx_get_node',
+      params: []
+    })
+  }
+
+  async getSettings() {
+    return await this.sendApiRequest({
+      method: 'get_settings',
+      params: []
+    })
+  }
+
+  async signAndSendExtrinsic(address, hex, callback = nonFunc) {
+    return await this.sendApiRequest(
+      {
+        method: needBroadcast ? 'chainx_sign_send' : 'chainx_sign',
+        params: [account.address, hex]
+      },
+      callback
+    )
+  }
+
+  listenAccountChange(listener = nonFunc) {
+    this.addEventHandler(events.ACCOUNT_CHANGE, listener)
+  }
+
+  removeAccountChangeListener(listener) {
+    this.removeEventHandler(events.ACCOUNT_CHANGE, listener)
+  }
+
+  listenNodeChange(listener = nonFunc) {
+    this.addEventHandler(events.NODE_CHANGE, listener)
+  }
+
+  removeNodeChangeListener(listener) {
+    this.removeEventHandler(events.NODE_CHANGE, listener)
+  }
+
+  listenNetworkChange(listener = nonFunc) {
+    this.addEventHandler(events.NETWORK_CHANGE, listener)
+  }
+
+  removeNetworkChangeListener(listener) {
+    this.removeEventHandler(events.NETWORK_CHANGE, listener)
+  }
+
+  removeEventListener(event, listener) {
+    const handlers = this.eventHandlers[event]
+    const index = handlers.findIndex(h => h === listener)
+    if (index >= 0) {
+      handlers.splice(index, 1)
+    }
   }
 }

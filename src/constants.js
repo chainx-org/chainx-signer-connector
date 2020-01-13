@@ -4,3 +4,5 @@ export const events = {
   NETWORK_CHANGE: 'network-change',
   TX_STATUS: 'tx-status'
 }
+
+export const nonFunc = () => {}
