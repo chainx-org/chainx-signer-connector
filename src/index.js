@@ -308,11 +308,18 @@ export default class SocketService {
   async signAndSendExtrinsic(address, hex, callback = nonFunc) {
     return await this.sendApiRequest(
       {
-        method: needBroadcast ? 'chainx_sign_send' : 'chainx_sign',
-        params: [account.address, hex]
+        method: 'chainx_sign_send',
+        params: [address, hex]
       },
       callback
     )
+  }
+
+  async signExtrinsic(address, hex) {
+    return await this.sendApiRequest({
+      method: 'chainx_sign',
+      params: [address, hex]
+    })
   }
 
   listenAccountChange(listener = nonFunc) {
