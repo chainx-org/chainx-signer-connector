@@ -145,7 +145,7 @@ export default class SocketService {
     return new Promise(async (resolve, reject) => {
       const targetPort = await findTargetPort()
       if (!targetPort) {
-        reject()
+        return reject()
       }
 
       const s = await trySocket(targetPort)
