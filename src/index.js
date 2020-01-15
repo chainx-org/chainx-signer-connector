@@ -133,6 +133,9 @@ export default class SocketService {
         return this.onMsgApi(data)
       case 'event':
         return this.onMsgEvent(data)
+      case 'connected':
+        console.log('Receive ChainX signer connected message')
+        return
       default:
         console.log(`Unknown type message ${type}`)
     }
