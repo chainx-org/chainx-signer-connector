@@ -217,7 +217,7 @@ export default class SocketService {
 
           callback(err, status)
 
-          if (status.status === 'Finalized') {
+          if (err || (status && status.status === 'Finalized')) {
             this.removeEventHandler(events.TX_STATUS)
           }
         })
