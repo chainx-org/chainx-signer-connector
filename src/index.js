@@ -223,7 +223,14 @@ export default class SocketService {
         })
       }
 
-      this.send('api', { data, plugin: this.plugin })
+      try {
+        this.send('api', { data, plugin: this.plugin })
+      } catch (e) {
+        reject({
+          code: 'network_error',
+          message: 'can not send api request'
+        })
+      }
     })
   }
 
