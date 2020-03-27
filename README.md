@@ -18,7 +18,9 @@ yarn add @chainx/signer-connector
 import Connector from '@chainx/signer-connector'
 
 // Create the signer connector instance
-const connector = new Connector('dapp')(async () => {
+const connector = new Connector('dapp')
+
+;(async () => {
   try {
     await connector.link()
   } catch (e) {
