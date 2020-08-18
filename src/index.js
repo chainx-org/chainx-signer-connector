@@ -207,7 +207,12 @@ export default class SocketService {
       this.openRequests.push(Object.assign(data, { resolve, reject }))
 
       if (
-        ['chainx_sign_send', 'chainx_sign'].includes(data.payload.method) &&
+        [
+          'chainx_sign_send',
+          'chainx_sign',
+          'chainx2_sign_send',
+          'chainx2_sign'
+        ].includes(data.payload.method) &&
         typeof callback === 'function'
       ) {
         this.addEventHandler(events.TX_STATUS, ({ id, err, status }) => {
@@ -312,6 +317,23 @@ export default class SocketService {
     return await this.sendApiRequest({
       method: 'chainx_sign',
       params: [address, hex]
+    })
+  }
+
+  async signAndSendChainx2Extrinsic(address, data, callback = nonFunc) {
+    return await this.sendApiRequest(
+      {
+        method: 'chainx2_sign_send',
+        params: [address, data]
+      },
+      callback
+    )
+  }
+
+  async signChainx2Extrinsic(address, data) {
+    return await this.sendApiRequest({
+      method: 'chainx2_sign',
+      params: [address, data]
     })
   }
 
